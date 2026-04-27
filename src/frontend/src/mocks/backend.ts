@@ -1,0 +1,283 @@
+import type { backendInterface } from "../backend";
+import {
+  AssignmentStatus,
+  ChatRole,
+  RequestStatus,
+  ResourceType,
+  Urgency,
+} from "../backend";
+
+export const mockBackend: backendInterface = {
+  assignVolunteer: async (_requestId, _volunteerId) => ({
+    id: BigInt(1),
+    status: AssignmentStatus.active,
+    requestId: BigInt(1),
+    volunteerId: BigInt(1),
+    acceptedAt: BigInt(Date.now()),
+  }),
+
+  createRequest: async (input) => ({
+    id: BigInt(16),
+    lat: input.lat,
+    lng: input.lng,
+    status: RequestStatus.pending,
+    title: input.title,
+    urgency: input.urgency,
+    assignedVolunteers: [],
+    createdAt: BigInt(Date.now()),
+    description: input.description,
+    deadline: input.deadline,
+    resourceType: input.resourceType,
+    ngoId: input.ngoId,
+    quantity: input.quantity,
+  }),
+
+  getAllAssignments: async () => [
+    {
+      id: BigInt(1),
+      status: AssignmentStatus.active,
+      requestId: BigInt(1),
+      volunteerId: BigInt(1),
+      acceptedAt: BigInt(Date.now()),
+    },
+  ],
+
+  getAllNGOs: async () => [
+    {
+      id: BigInt(1),
+      lat: 48.8566,
+      lng: 2.3522,
+      name: "Global Aid Foundation",
+      createdAt: BigInt(1700000000000),
+      description: "Providing humanitarian aid and disaster relief worldwide.",
+      isVerified: true,
+      contactEmail: "contact@globalaid.org",
+    },
+    {
+      id: BigInt(2),
+      lat: 40.7128,
+      lng: -74.006,
+      name: "Volunteer Connect",
+      createdAt: BigInt(1700000000000),
+      description: "Matching skilled volunteers with communities in need.",
+      isVerified: true,
+      contactEmail: "info@volunteerconnect.org",
+    },
+    {
+      id: BigInt(3),
+      lat: 51.5074,
+      lng: -0.1278,
+      name: "Shelter Now",
+      createdAt: BigInt(1700000000000),
+      description: "Emergency shelter and housing support for displaced families.",
+      isVerified: false,
+      contactEmail: "help@shelternow.org",
+    },
+  ],
+
+  getAllRequests: async () => [
+    {
+      id: BigInt(1),
+      lat: 48.8566,
+      lng: 2.3522,
+      status: RequestStatus.pending,
+      title: "Emergency Medical Supplies",
+      urgency: Urgency.critical,
+      assignedVolunteers: [],
+      createdAt: BigInt(Date.now()),
+      description: "Urgent need for medical supplies in flood-affected area.",
+      deadline: BigInt(Date.now() + 86400000),
+      resourceType: ResourceType.medical,
+      ngoId: BigInt(1),
+      quantity: BigInt(200),
+    },
+    {
+      id: BigInt(2),
+      lat: 40.7128,
+      lng: -74.006,
+      status: RequestStatus.ongoing,
+      title: "Food Packages Distribution",
+      urgency: Urgency.high,
+      assignedVolunteers: [BigInt(1), BigInt(2)],
+      createdAt: BigInt(Date.now()),
+      description: "Distribute food packages to 500 families.",
+      deadline: BigInt(Date.now() + 172800000),
+      resourceType: ResourceType.food,
+      ngoId: BigInt(2),
+      quantity: BigInt(500),
+    },
+    {
+      id: BigInt(3),
+      lat: 51.5074,
+      lng: -0.1278,
+      status: RequestStatus.completed,
+      title: "Temporary Shelter Setup",
+      urgency: Urgency.medium,
+      assignedVolunteers: [BigInt(3)],
+      createdAt: BigInt(Date.now()),
+      description: "Set up temporary shelters for displaced families.",
+      deadline: BigInt(Date.now() + 259200000),
+      resourceType: ResourceType.shelter,
+      ngoId: BigInt(3),
+      quantity: BigInt(50),
+    },
+  ],
+
+  getAllVolunteers: async () => [
+    {
+      id: BigInt(1),
+      lat: 48.8566,
+      lng: 2.3522,
+      completedTasks: BigInt(12),
+      name: "Sarah Chen",
+      isAvailable: true,
+      rating: 4.9,
+      skills: ["Medical", "First Aid", "Logistics"],
+    },
+    {
+      id: BigInt(2),
+      lat: 40.7128,
+      lng: -74.006,
+      completedTasks: BigInt(8),
+      name: "Marcus Johnson",
+      isAvailable: true,
+      rating: 4.7,
+      skills: ["Construction", "Engineering", "Teaching"],
+    },
+    {
+      id: BigInt(3),
+      lat: 51.5074,
+      lng: -0.1278,
+      completedTasks: BigInt(25),
+      name: "Priya Sharma",
+      isAvailable: false,
+      rating: 5.0,
+      skills: ["Counseling", "Community Outreach", "Food Distribution"],
+    },
+  ],
+
+  getAvailableVolunteers: async () => [
+    {
+      id: BigInt(1),
+      lat: 48.8566,
+      lng: 2.3522,
+      completedTasks: BigInt(12),
+      name: "Sarah Chen",
+      isAvailable: true,
+      rating: 4.9,
+      skills: ["Medical", "First Aid", "Logistics"],
+    },
+    {
+      id: BigInt(2),
+      lat: 40.7128,
+      lng: -74.006,
+      completedTasks: BigInt(8),
+      name: "Marcus Johnson",
+      isAvailable: true,
+      rating: 4.7,
+      skills: ["Construction", "Engineering", "Teaching"],
+    },
+  ],
+
+  getNearbyRequests: async (_lat, _lng, _radiusKm) => [
+    {
+      id: BigInt(1),
+      lat: 48.8566,
+      lng: 2.3522,
+      status: RequestStatus.pending,
+      title: "Emergency Medical Supplies",
+      urgency: Urgency.critical,
+      assignedVolunteers: [],
+      createdAt: BigInt(Date.now()),
+      description: "Urgent need for medical supplies in flood-affected area.",
+      deadline: BigInt(Date.now() + 86400000),
+      resourceType: ResourceType.medical,
+      ngoId: BigInt(1),
+      quantity: BigInt(200),
+    },
+  ],
+
+  getRequestsByNgo: async (_ngoId) => [
+    {
+      id: BigInt(1),
+      lat: 48.8566,
+      lng: 2.3522,
+      status: RequestStatus.pending,
+      title: "Emergency Medical Supplies",
+      urgency: Urgency.critical,
+      assignedVolunteers: [],
+      createdAt: BigInt(Date.now()),
+      description: "Urgent need for medical supplies in flood-affected area.",
+      deadline: BigInt(Date.now() + 86400000),
+      resourceType: ResourceType.medical,
+      ngoId: BigInt(1),
+      quantity: BigInt(200),
+    },
+    {
+      id: BigInt(2),
+      lat: 40.7128,
+      lng: -74.006,
+      status: RequestStatus.ongoing,
+      title: "Food Packages Distribution",
+      urgency: Urgency.high,
+      assignedVolunteers: [BigInt(1)],
+      createdAt: BigInt(Date.now()),
+      description: "Distribute food packages to 500 families.",
+      deadline: BigInt(Date.now() + 172800000),
+      resourceType: ResourceType.food,
+      ngoId: BigInt(1),
+      quantity: BigInt(500),
+    },
+  ],
+
+  registerNGO: async (input) => ({
+    id: BigInt(6),
+    lat: input.lat,
+    lng: input.lng,
+    name: input.name,
+    createdAt: BigInt(Date.now()),
+    description: input.description,
+    isVerified: false,
+    contactEmail: input.contactEmail,
+  }),
+
+  registerVolunteer: async (input) => ({
+    id: BigInt(12),
+    lat: input.lat,
+    lng: input.lng,
+    completedTasks: BigInt(0),
+    name: input.name,
+    isAvailable: true,
+    rating: 0,
+    skills: input.skills,
+  }),
+
+  sendChatMessage: async (_messages) =>
+    "Hello! I'm AidLink's AI assistant. I can help you connect NGOs with volunteers and manage resource requests. How can I assist you today?",
+
+  transform: async (input) => ({
+    status: input.response.status,
+    body: input.response.body,
+    headers: input.response.headers,
+  }),
+
+  updateRequestStatus: async (_requestId, _status) => true,
+
+  setGeminiApiKey: async (_key) => {},
+
+  setGoogleMapsApiKey: async (_key) => {},
+
+  setGoogleCloudTranslationApiKey: async (_key) => {},
+
+  getMapApiKey: async () => "",
+
+  translateText: async (_text, _targetLang) => _text,
+
+  detectLanguage: async (_text) => "en",
+
+  transformTranslation: async (input) => ({
+    status: input.response.status,
+    body: input.response.body,
+    headers: input.response.headers,
+  }),
+};

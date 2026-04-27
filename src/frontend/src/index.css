@@ -1,0 +1,292 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --font-display: "Bricolage Grotesque", sans-serif;
+    --font-body: "DM Sans", sans-serif;
+    --font-mono: "Geist Mono", monospace;
+    --radius: 0.625rem;
+
+    /* Deep navy & glassmorphic palette - light mode */
+    --background: 0.15 0.01 260;
+    --foreground: 0.95 0.02 260;
+    --card: 0.2 0.02 260;
+    --card-foreground: 0.92 0.02 260;
+    --popover: 0.22 0.02 260;
+    --popover-foreground: 0.95 0.02 260;
+
+    /* Electric blue primary */
+    --primary: 0.65 0.24 262;
+    --primary-foreground: 0.08 0.01 260;
+
+    /* Neon cyan secondary */
+    --secondary: 0.72 0.21 270;
+    --secondary-foreground: 0.15 0.01 260;
+    --muted: 0.3 0.02 260;
+    --muted-foreground: 0.7 0.02 260;
+
+    /* Neon purple accent */
+    --accent: 0.68 0.23 290;
+    --accent-foreground: 0.08 0.01 260;
+
+    /* Destructive - neon red-pink */
+    --destructive: 0.65 0.27 15;
+    --destructive-foreground: 0.98 0 0;
+
+    /* Glass borders with subtle cyan tint */
+    --border: 0.28 0.04 270;
+    --input: 0.25 0.02 260;
+    --ring: 0.68 0.23 290;
+
+    /* Chart colors - neon gradient palette */
+    --chart-1: 0.68 0.23 290;
+    --chart-2: 0.72 0.21 270;
+    --chart-3: 0.65 0.24 262;
+    --chart-4: 0.7 0.22 155;
+    --chart-5: 0.68 0.23 15;
+
+    --sidebar: 0.2 0.02 260;
+    --sidebar-foreground: 0.92 0.02 260;
+    --sidebar-primary: 0.68 0.23 290;
+    --sidebar-primary-foreground: 0.08 0.01 260;
+    --sidebar-accent: 0.72 0.21 270;
+    --sidebar-accent-foreground: 0.15 0.01 260;
+    --sidebar-border: 0.28 0.04 270;
+    --sidebar-ring: 0.68 0.23 290;
+
+    /* Status badge colors */
+    --status-available: 0.68 0.22 155;
+    --status-unavailable: 0.4 0.02 260;
+    --status-active: 0.72 0.21 270;
+
+    /* Glassmorphism & motion tokens */
+    --glass-blur: blur(10px);
+    --glass-opacity: 0.15;
+    --glow-primary: 0 0 20px rgba(104, 174, 255, 0.6);
+    --glow-accent: 0 0 20px rgba(168, 85, 247, 0.5);
+    --glow-cyan: 0 0 20px rgba(112, 204, 255, 0.5);
+    --gradient-primary: linear-gradient(
+      135deg,
+      oklch(0.65 0.24 262) 0%,
+      oklch(0.68 0.23 290) 100%
+    );
+    --gradient-hero: linear-gradient(
+      135deg,
+      oklch(0.15 0.01 260) 0%,
+      oklch(0.2 0.02 260) 50%,
+      oklch(0.25 0.05 270) 100%
+    );
+  }
+
+  .dark {
+    --background: 0.08 0.01 260;
+    --foreground: 0.92 0.02 260;
+    --card: 0.12 0.02 260;
+    --card-foreground: 0.9 0.02 260;
+    --popover: 0.15 0.02 260;
+    --popover-foreground: 0.92 0.02 260;
+
+    --primary: 0.72 0.27 262;
+    --primary-foreground: 0.08 0.01 260;
+
+    --secondary: 0.75 0.25 270;
+    --secondary-foreground: 0.15 0.01 260;
+    --muted: 0.22 0.02 260;
+    --muted-foreground: 0.65 0.02 260;
+
+    --accent: 0.75 0.26 290;
+    --accent-foreground: 0.08 0.01 260;
+
+    --destructive: 0.68 0.29 15;
+    --destructive-foreground: 0.98 0 0;
+
+    --border: 0.2 0.04 270;
+    --input: 0.18 0.02 260;
+    --ring: 0.75 0.26 290;
+
+    --chart-1: 0.75 0.26 290;
+    --chart-2: 0.75 0.25 270;
+    --chart-3: 0.72 0.27 262;
+    --chart-4: 0.7 0.24 155;
+    --chart-5: 0.72 0.28 15;
+
+    --sidebar: 0.12 0.02 260;
+    --sidebar-foreground: 0.9 0.02 260;
+    --sidebar-primary: 0.75 0.26 290;
+    --sidebar-primary-foreground: 0.08 0.01 260;
+    --sidebar-accent: 0.75 0.25 270;
+    --sidebar-accent-foreground: 0.15 0.01 260;
+    --sidebar-border: 0.2 0.04 270;
+    --sidebar-ring: 0.75 0.26 290;
+
+    --status-available: 0.72 0.25 155;
+    --status-unavailable: 0.3 0.02 260;
+    --status-active: 0.75 0.25 270;
+
+    --glass-blur: blur(10px);
+    --glass-opacity: 0.12;
+    --glow-primary: 0 0 25px rgba(104, 174, 255, 0.8);
+    --glow-accent: 0 0 25px rgba(168, 85, 247, 0.7);
+    --glow-cyan: 0 0 25px rgba(112, 204, 255, 0.7);
+    --gradient-primary: linear-gradient(
+      135deg,
+      oklch(0.72 0.27 262) 0%,
+      oklch(0.75 0.26 290) 100%
+    );
+    --gradient-hero: linear-gradient(
+      135deg,
+      oklch(0.08 0.01 260) 0%,
+      oklch(0.12 0.02 260) 50%,
+      oklch(0.18 0.05 270) 100%
+    );
+  }
+
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground font-body antialiased transition-colors duration-300;
+  }
+  html {
+    @apply transition-colors duration-300;
+  }
+}
+
+@layer utilities {
+  .transition-smooth {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Glassmorphism utilities */
+  .glass {
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid oklch(0.28 0.04 270 / 0.2);
+    background-color: oklch(0.2 0.02 260 / 0.2);
+  }
+
+  .glass-strong {
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid oklch(0.28 0.04 270 / 0.3);
+    background-color: oklch(0.2 0.02 260 / 0.25);
+  }
+
+  /* Gradient utilities */
+  .gradient-primary {
+    background: var(--gradient-primary);
+  }
+
+  .gradient-hero {
+    background: var(--gradient-hero);
+  }
+
+  /* Glow effects */
+  .glow-primary {
+    box-shadow: 0 0 24px rgba(104, 174, 255, 0.4);
+  }
+
+  .glow-accent {
+    box-shadow: 0 0 24px rgba(168, 85, 247, 0.35);
+  }
+
+  .glow-cyan {
+    box-shadow: 0 0 24px rgba(112, 204, 255, 0.35);
+  }
+
+  /* Hover lift effect */
+  .hover-lift {
+    @apply transition-smooth hover:-translate-y-1 hover:shadow-lg;
+  }
+
+  /* Card equal height */
+  .card-grid {
+    @apply grid auto-rows-max gap-6;
+  }
+
+  /* Fade-in animation start state */
+  .fade-in-start {
+    @apply opacity-0;
+  }
+
+  /* Theme transition utilities */
+  .theme-transition {
+    transition: background-color 300ms cubic-bezier(0.4, 0, 0.2, 1), color 300ms
+      cubic-bezier(0.4, 0, 0.2, 1), border-color 300ms
+      cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* New Volunteers card animations */
+  .volunteer-card {
+    @apply transition-smooth hover:-translate-y-2 hover:shadow-glow-primary;
+  }
+
+  .volunteer-badge {
+    @apply inline-flex items-center rounded-full px-3 py-1 text-sm font-medium transition-smooth;
+  }
+
+  .badge-available {
+    @apply bg-secondary/20 text-secondary border border-secondary/30;
+  }
+
+  .badge-unavailable {
+    @apply bg-muted/30 text-muted-foreground border border-muted/50;
+  }
+
+  /* Profile section cards */
+  .profile-section {
+    @apply glass-strong transition-smooth hover:shadow-glow-accent;
+  }
+
+  .profile-nav-item {
+    @apply transition-smooth hover:text-primary hover:border-l-2 hover:border-primary;
+  }
+
+  /* Activity timeline */
+  .timeline-entry {
+    @apply relative pl-8 py-3 before:content-[''] before:absolute before:left-0 before:top-4 before:w-3 before:h-3 before:rounded-full before:bg-primary before:shadow-glow-primary;
+  }
+
+  .timeline-connector {
+    @apply absolute left-1.5 top-6 bottom-0 w-0.5 bg-gradient-to-b from-secondary/50 to-accent/50;
+  }
+
+  /* Light mode adjustments */
+  @media (prefers-color-scheme: light) {
+    :root {
+      --background: 0.98 0.01 260;
+      --foreground: 0.15 0.02 260;
+      --card: 0.96 0.01 260;
+      --card-foreground: 0.2 0.02 260;
+      --popover: 0.94 0.01 260;
+      --popover-foreground: 0.15 0.02 260;
+      --muted: 0.7 0.02 260;
+      --muted-foreground: 0.4 0.02 260;
+      --input: 0.92 0.02 260;
+      --border: 0.85 0.04 270;
+    }
+  }
+}
+
+@font-face {
+  font-family: "Bricolage Grotesque";
+  src: url("/assets/fonts/BricolageGrotesque.woff2") format("woff2");
+  font-display: swap;
+  font-weight: 400 700;
+}
+
+@font-face {
+  font-family: "DM Sans";
+  src: url("/assets/fonts/DMSans.woff2") format("woff2");
+  font-display: swap;
+  font-weight: 400 500 700;
+}
+
+@font-face {
+  font-family: "Geist Mono";
+  src: url("/assets/fonts/GeistMono.woff2") format("woff2");
+  font-display: swap;
+  font-weight: 400 500;
+}

@@ -1,0 +1,98 @@
+// Version: 1.0.0
+type AssignmentId__1043862869 = AssignmentId__162244222;
+type AssignmentId__162244222 = Nat;
+type AssignmentStatus__175860934 = {#active; #cancelled; #completed};
+type Assignment__286129986 =
+  {
+    acceptedAt : Timestamp__754472851;
+    completedAt : ?Timestamp__754472851;
+    id : AssignmentId__1043862869;
+    requestId : RequestId__113075894;
+    status : AssignmentStatus__175860934;
+    volunteerId : VolunteerId__1030823424
+  };
+type NGO__123334096 =
+  {
+    contactEmail : Text;
+    createdAt : Timestamp__754472851;
+    description : Text;
+    id : NgoId__228850423;
+    isVerified : Bool;
+    lat : Float;
+    lng : Float;
+    name : Text
+  };
+type Nat__490723111 = Nat__920180692;
+type Nat__920180692 = Nat;
+type NgoId__228850423 = NgoId__760671034;
+type NgoId__760671034 = Nat;
+type RequestId__113075894 = RequestId__173743850;
+type RequestId__173743850 = Nat;
+type RequestStatus__331743025 = {#completed; #ongoing; #pending};
+type ResourceRequest__332570298 =
+  {
+    assignedVolunteers : [VolunteerId__1030823424];
+    createdAt : Timestamp__754472851;
+    deadline : Timestamp__754472851;
+    description : Text;
+    id : RequestId__113075894;
+    lat : Float;
+    lng : Float;
+    ngoId : NgoId__228850423;
+    quantity : Nat;
+    resourceType : ResourceType__957698750;
+    status : RequestStatus__331743025;
+    title : Text;
+    urgency : Urgency__1036567565
+  };
+type ResourceType__957698750 =
+  {#education; #food; #medical; #other; #shelter};
+type Timestamp__301639476 = Int;
+type Timestamp__754472851 = Timestamp__301639476;
+type Urgency__1036567565 = {#critical; #high; #low; #medium};
+type VolunteerId__1030823424 = VolunteerId__38155007;
+type VolunteerId__38155007 = Nat;
+type Volunteer__565622215 =
+  {
+    completedTasks : Nat;
+    id : VolunteerId__1030823424;
+    isAvailable : Bool;
+    lat : Float;
+    lng : Float;
+    name : Text;
+    rating : Float;
+    skills : [Text]
+  };
+actor {
+  stable assignments :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?Assignment__286129986]];
+      var elementIndex : Nat__490723111
+    };
+  stable geminiApiKey : {var value : Text};
+  stable googleCloudTranslationApiKey : {var value : Text};
+  stable googleMapsApiKey : {var value : Text};
+  stable nextAssignmentId : {var value : Nat};
+  stable nextNgoId : {var value : Nat};
+  stable nextRequestId : {var value : Nat};
+  stable nextVolunteerId : {var value : Nat};
+  stable ngos :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?NGO__123334096]];
+      var elementIndex : Nat__490723111
+    };
+  stable requests :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?ResourceRequest__332570298]];
+      var elementIndex : Nat__490723111
+    };
+  stable volunteers :
+    {
+      var blockIndex : Nat__490723111;
+      var blocks : [var [var ?Volunteer__565622215]];
+      var elementIndex : Nat__490723111
+    }
+};

@@ -1,0 +1,166 @@
+type http_request_result = 
+ record {
+   body: blob;
+   headers: vec http_header;
+   status: nat;
+ };
+type http_header = 
+ record {
+   name: text;
+   value: text;
+ };
+type VolunteerId = nat;
+type Volunteer = 
+ record {
+   completedTasks: nat;
+   id: VolunteerId;
+   isAvailable: bool;
+   lat: float64;
+   lng: float64;
+   name: text;
+   rating: float64;
+   skills: vec text;
+ };
+type Urgency = 
+ variant {
+   critical;
+   high;
+   low;
+   medium;
+ };
+type TransformationOutput = 
+ record {
+   body: blob;
+   headers: vec http_header;
+   status: nat;
+ };
+type TransformationInput = 
+ record {
+   context: blob;
+   response: http_request_result;
+ };
+type Timestamp = int;
+type ResourceType = 
+ variant {
+   education;
+   food;
+   medical;
+   other;
+   shelter;
+ };
+type ResourceRequest = 
+ record {
+   assignedVolunteers: vec VolunteerId;
+   createdAt: Timestamp;
+   deadline: Timestamp;
+   description: text;
+   id: RequestId;
+   lat: float64;
+   lng: float64;
+   ngoId: NgoId;
+   quantity: nat;
+   resourceType: ResourceType;
+   status: RequestStatus;
+   title: text;
+   urgency: Urgency;
+ };
+type RequestStatus = 
+ variant {
+   completed;
+   ongoing;
+   pending;
+ };
+type RequestId = nat;
+type NgoId = nat;
+type NGO = 
+ record {
+   contactEmail: text;
+   createdAt: Timestamp;
+   description: text;
+   id: NgoId;
+   isVerified: bool;
+   lat: float64;
+   lng: float64;
+   name: text;
+ };
+type CreateVolunteerInput = 
+ record {
+   lat: float64;
+   lng: float64;
+   name: text;
+   skills: vec text;
+ };
+type CreateRequestInput = 
+ record {
+   deadline: Timestamp;
+   description: text;
+   lat: float64;
+   lng: float64;
+   ngoId: NgoId;
+   quantity: nat;
+   resourceType: ResourceType;
+   title: text;
+   urgency: Urgency;
+ };
+type CreateNGOInput = 
+ record {
+   contactEmail: text;
+   description: text;
+   lat: float64;
+   lng: float64;
+   name: text;
+ };
+type ChatRole = 
+ variant {
+   assistant;
+   user;
+ };
+type ChatMessage = 
+ record {
+   content: text;
+   role: ChatRole;
+   timestamp: Timestamp;
+ };
+type AssignmentStatus = 
+ variant {
+   active;
+   cancelled;
+   completed;
+ };
+type AssignmentId = nat;
+type Assignment = 
+ record {
+   acceptedAt: Timestamp;
+   completedAt: opt Timestamp;
+   id: AssignmentId;
+   requestId: RequestId;
+   status: AssignmentStatus;
+   volunteerId: VolunteerId;
+ };
+service : {
+  assignVolunteer: (requestId: RequestId, volunteerId: VolunteerId) ->
+   (opt Assignment);
+  createRequest: (input: CreateRequestInput) -> (ResourceRequest);
+  detectLanguage: ("text": text) -> (text);
+  getAllAssignments: () -> (vec Assignment) query;
+  getAllNGOs: () -> (vec NGO) query;
+  getAllRequests: () -> (vec ResourceRequest) query;
+  getAllVolunteers: () -> (vec Volunteer) query;
+  getAvailableVolunteers: () -> (vec Volunteer) query;
+  getMapApiKey: () -> (text) query;
+  getNearbyRequests: (lat: float64, lng: float64, radiusKm: float64) ->
+   (vec ResourceRequest) query;
+  getRequestsByNgo: (ngoId: NgoId) -> (vec ResourceRequest) query;
+  registerNGO: (input: CreateNGOInput) -> (NGO);
+  registerVolunteer: (input: CreateVolunteerInput) -> (Volunteer);
+  sendChatMessage: (messages: vec ChatMessage) -> (text);
+  setGeminiApiKey: (key: text) -> ();
+  setGoogleCloudTranslationApiKey: (key: text) -> ();
+  setGoogleMapsApiKey: (key: text) -> ();
+  transform: (input: TransformationInput) -> (TransformationOutput) query;
+  transformTranslation: (input: TransformationInput) ->
+   (TransformationOutput) query;
+  translateText: ("text": text, targetLang: text) -> (text);
+  updateRequestStatus: (requestId: RequestId, status: RequestStatus) ->
+   (bool);
+}

@@ -1,0 +1,28 @@
+{
+  "overview": "AidLink is a premium Smart Resource Allocation platform connecting NGOs, volunteers, and resources. Features a clean professional interface with an interactive map, New Volunteers showcase, full user profile management with dark/light mode, and a persistent AI chatbot — all wrapped in a cinematic glassmorphism design.",
+  "features": [
+    "Interactive map with volunteer and request location markers (no API key required)",
+    "New Volunteers section showcasing 8 most recent volunteers with availability and task info",
+    "Full user profile page with editable settings (photo, name, contact, address, role, notifications)",
+    "Activity history, completed tasks, and saved requests tracking",
+    "Account security options and password management",
+    "App-wide dark/light mode toggle persisted across sessions",
+    "Persistent AI chatbot powered by Gemini (English only)",
+    "NGO and Volunteer dashboards with glassmorphism UI",
+    "Multi-step resource request form",
+    "Responsive, animated layouts with modern gradient design"
+  ],
+  "category": "productivity",
+  "tags": [
+    "ngo",
+    "volunteer",
+    "resource-allocation",
+    "disaster-relief",
+    "map",
+    "profile",
+    "dark-mode",
+    "glassmorphism",
+    "ai-chatbot"
+  ],
+  "last_updated": "2026-04-27T15:09:23.634Z"
+}
