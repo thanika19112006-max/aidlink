@@ -221,17 +221,9 @@ export function Layout({ children }: LayoutProps) {
                 — Smart Resource Allocation
               </span>
             </div>
-            <p className="text-muted-foreground text-sm">
-              © {new Date().getFullYear()}. Built with love using{" "}
-              <a
-                href={`https://caffeine.ai?utm_source=caffeine-footer&utm_medium=referral&utm_content=${encodeURIComponent(typeof window !== "undefined" ? window.location.hostname : "")}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-primary hover:text-primary/80 transition-colors duration-200"
-              >
-                caffeine.ai
-              </a>
-            </p>
+           <p className="text-muted-foreground text-sm">
+  © {new Date().getFullYear()} VolunteerConnect AI. All rights reserved.
+         </p>
           </div>
         </div>
       </footer>
