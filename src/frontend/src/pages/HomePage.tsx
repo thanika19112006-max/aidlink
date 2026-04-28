@@ -982,14 +982,15 @@ export function HomePage() {
             <Link to="/auth">
               <Button
                 size="lg"
-                variant="outline"
                 data-ocid="home.hero.volunteer_button"
-                className="border-border hover:border-primary text-foreground hover:-translate-y-1 transition-smooth px-8 h-13 text-base"
+                className="hover:-translate-y-1 transition-smooth px-8 text-base font-semibold"
                 style={{
                   height: "3.25rem",
-                  borderColor: "rgba(112,204,255,0.4)",
-                  color: "rgba(255,255,255,0.9)",
-                  boxShadow: "0 0 16px rgba(112,204,255,0.15)",
+                  background: "transparent",
+                  border: "2px solid rgba(112,204,255,0.7)",
+                  color: "#ffffff",
+                  boxShadow:
+                    "0 0 20px rgba(112,204,255,0.25), inset 0 0 20px rgba(112,204,255,0.05)",
                 }}
               >
                 <Users className="w-4 h-4 mr-2" />

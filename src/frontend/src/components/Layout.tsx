@@ -1,9 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Link, useLocation } from "@tanstack/react-router";
-import { Menu, Moon, Sun, X, Zap } from "lucide-react";
+import { Menu, X, Zap } from "lucide-react";
 import { useEffect, useState } from "react";
-import { useTheme } from "../hooks/useTheme";
 import { Chatbot } from "./Chatbot";
 
 const NAV_LINKS = [
@@ -42,38 +41,6 @@ function NavLink({
   );
 }
 
-function ThemeToggle({ className = "" }: { className?: string }) {
-  const { isDark, toggleTheme } = useTheme();
-  return (
-    <button
-      type="button"
-      onClick={toggleTheme}
-      data-ocid="nav.theme_toggle"
-      aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
-      className={`relative w-9 h-9 rounded-lg flex items-center justify-center transition-all duration-300 glass hover:border-primary/40 hover:shadow-glow-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary ${className}`}
-    >
-      <span
-        className={`absolute transition-all duration-300 ${
-          isDark
-            ? "opacity-100 rotate-0 scale-100"
-            : "opacity-0 rotate-90 scale-75"
-        }`}
-      >
-        <Moon className="w-4 h-4 text-primary" />
-      </span>
-      <span
-        className={`absolute transition-all duration-300 ${
-          isDark
-            ? "opacity-0 -rotate-90 scale-75"
-            : "opacity-100 rotate-0 scale-100"
-        }`}
-      >
-        <Sun className="w-4 h-4 text-accent" />
-      </span>
-    </button>
-  );
-}
-
 interface LayoutProps {
   children: React.ReactNode;
 }
@@ -89,7 +56,7 @@ export function Layout({ children }: LayoutProps) {
   }, []);
 
   return (
-    <div className="min-h-screen flex flex-col bg-background text-foreground transition-colors duration-300">
+    <div className="min-h-screen flex flex-col bg-background text-foreground">
       {/* Floating glassmorphic header */}
       <header
         data-ocid="nav.header"
@@ -121,11 +88,8 @@ export function Layout({ children }: LayoutProps) {
             ))}
           </nav>
 
-          {/* CTA + Theme toggle + Mobile menu */}
+          {/* CTA + Mobile menu */}
           <div className="flex items-center gap-2">
-            {/* Theme toggle */}
-            <ThemeToggle className="hidden md:flex" />
-
             <Link to="/auth" className="hidden md:block">
               <Button
                 data-ocid="nav.connect_button"
@@ -159,7 +123,7 @@ export function Layout({ children }: LayoutProps) {
                 data-ocid="nav.mobile_menu.sheet"
               >
                 <div className="flex flex-col gap-2 mt-8">
-                  <div className="flex items-center justify-between mb-6">
+                  <div className="flex items-center mb-6">
                     <div className="flex items-center gap-2">
                       <div className="w-8 h-8 rounded-lg gradient-primary flex items-center justify-center">
                         <Zap className="w-4 h-4 text-primary-foreground" />
@@ -168,7 +132,6 @@ export function Layout({ children }: LayoutProps) {
                         Aid<span className="text-primary">Link</span>
                       </span>
                     </div>
-                    <ThemeToggle />
                   </div>
                   {NAV_LINKS.map((link) => (
                     <NavLink
@@ -221,9 +184,17 @@ export function Layout({ children }: LayoutProps) {
                 — Smart Resource Allocation
               </span>
             </div>
-           <p className="text-muted-foreground text-sm">
-  © {new Date().getFullYear()} VolunteerConnect AI. All rights reserved.
-         </p>
+            <p className="text-muted-foreground text-sm">
+              © {new Date().getFullYear()}. Built with love using{" "}
+              <a
+                href={`https://caffeine.ai?utm_source=caffeine-footer&utm_medium=referral&utm_content=${encodeURIComponent(typeof window !== "undefined" ? window.location.hostname : "")}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-primary hover:text-primary/80 transition-colors duration-200"
+              >
+                caffeine.ai
+              </a>
+            </p>
           </div>
         </div>
       </footer>

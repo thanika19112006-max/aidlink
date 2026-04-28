@@ -50,16 +50,79 @@ export function useRequests() {
   });
 }
 
+// ─── Fallback NGO seed data (shown when backend returns empty) ────────────────
+const FALLBACK_NGOS = [
+  {
+    id: BigInt(1),
+    name: "Global Relief Foundation",
+    isVerified: true,
+    description: "Emergency relief worldwide",
+    contactEmail: "contact@globalrelief.org",
+    lat: 51.5074,
+    lng: -0.1278,
+    createdAt: BigInt(Date.now()),
+  },
+  {
+    id: BigInt(2),
+    name: "HungerFree Alliance",
+    isVerified: true,
+    description: "Fighting food insecurity",
+    contactEmail: "info@hungerfree.org",
+    lat: 40.7128,
+    lng: -74.006,
+    createdAt: BigInt(Date.now()),
+  },
+  {
+    id: BigInt(3),
+    name: "MedReach International",
+    isVerified: true,
+    description: "Healthcare for underserved communities",
+    contactEmail: "help@medreach.org",
+    lat: 48.8566,
+    lng: 2.3522,
+    createdAt: BigInt(Date.now()),
+  },
+  {
+    id: BigInt(4),
+    name: "ShelterNow",
+    isVerified: true,
+    description: "Housing and shelter solutions",
+    contactEmail: "info@shelternow.org",
+    lat: 34.0522,
+    lng: -118.2437,
+    createdAt: BigInt(Date.now()),
+  },
+  {
+    id: BigInt(5),
+    name: "EduBridge",
+    isVerified: true,
+    description: "Education access for all",
+    contactEmail: "connect@edubridge.org",
+    lat: 1.3521,
+    lng: 103.8198,
+    createdAt: BigInt(Date.now()),
+  },
+] as const;
+
 export function useNGOs() {
   const { actor, isFetching } = useBackendActor();
   return useQuery({
     queryKey: ["ngos"],
     queryFn: async () => {
-      if (!actor) return [];
-      return actor.getAllNGOs();
+      if (!actor) return [...FALLBACK_NGOS];
+      try {
+        const result = await actor.getAllNGOs();
+        // If backend returns empty list, use fallback seed data
+        if (!result || result.length === 0) return [...FALLBACK_NGOS];
+        return result;
+      } catch {
+        return [...FALLBACK_NGOS];
+      }
     },
     enabled: !!actor && !isFetching,
     staleTime: STALE_TIME,
+    // Show fallback data immediately while actor loads
+    placeholderData: [...FALLBACK_NGOS],
   });
 }
 

@@ -79,7 +79,7 @@ function PersonalInfoForm({
                 onChange={set("name")}
                 data-ocid="profile.name.input"
                 placeholder="Your full name"
-                className="glass border-border"
+                className="glass border-border text-white placeholder:text-white/40"
               />
             </div>
             <div className="space-y-2">
@@ -91,7 +91,7 @@ function PersonalInfoForm({
                 onChange={set("email")}
                 data-ocid="profile.email.input"
                 placeholder="your@email.com"
-                className="glass border-border"
+                className="glass border-border text-white placeholder:text-white/40"
               />
             </div>
             <div className="space-y-2">
@@ -103,7 +103,7 @@ function PersonalInfoForm({
                 onChange={set("phone")}
                 data-ocid="profile.phone.input"
                 placeholder="+91 XXXXX XXXXX"
-                className="glass border-border"
+                className="glass border-border text-white placeholder:text-white/40"
               />
             </div>
             <div className="space-y-2">
@@ -113,7 +113,7 @@ function PersonalInfoForm({
                 value={form.preferredRole}
                 onChange={set("preferredRole")}
                 data-ocid="profile.role.select"
-                className="w-full h-10 px-3 rounded-md text-sm glass border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary transition-smooth"
+                className="w-full h-10 px-3 rounded-md text-sm glass border border-border bg-transparent text-white focus:outline-none focus:ring-2 focus:ring-primary transition-smooth"
               >
                 <option value="volunteer">Volunteer</option>
                 <option value="ngo">NGO Coordinator</option>
@@ -129,7 +129,7 @@ function PersonalInfoForm({
                 data-ocid="profile.address.textarea"
                 placeholder="Your full address"
                 rows={3}
-                className="glass border-border resize-none"
+                className="glass border-border resize-none text-white placeholder:text-white/40"
               />
             </div>
           </div>

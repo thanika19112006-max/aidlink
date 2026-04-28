@@ -4,9 +4,7 @@ import {
   Bookmark,
   CheckSquare,
   Edit3,
-  Moon,
   Shield,
-  Sun,
   User,
 } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
@@ -19,7 +17,6 @@ import { ProfileHeader } from "../components/profile/ProfileHeader";
 import { SavedRequestsSection } from "../components/profile/SavedRequestsSection";
 import { SecuritySection } from "../components/profile/SecuritySection";
 import { useUpdateUserProfile, useUserProfile } from "../hooks/useAidLink";
-import { useTheme } from "../hooks/useTheme";
 import type { UserProfile, UserProfileUpdate } from "../types";
 
 // ─── Seed data ────────────────────────────────────────────────────────────────
@@ -56,13 +53,9 @@ type NavId = (typeof NAV_ITEMS)[number]["id"];
 function SidebarNav({
   active,
   onChange,
-  isDark,
-  toggleTheme,
 }: {
   active: NavId;
   onChange: (id: NavId) => void;
-  isDark: boolean;
-  toggleTheme: () => void;
 }) {
   return (
     <aside
@@ -106,18 +99,6 @@ function SidebarNav({
           );
         })}
       </nav>
-      <div className="p-3 border-t border-border/30">
-        <button
-          type="button"
-          onClick={toggleTheme}
-          data-ocid="profile.theme_toggle"
-          aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
-          className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted/30 transition-smooth"
-        >
-          {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
-          {isDark ? "Light Mode" : "Dark Mode"}
-        </button>
-      </div>
     </aside>
   );
 }
@@ -173,7 +154,6 @@ function MobileNav({
 export function UserProfilePage() {
   const { data: backendProfile } = useUserProfile(MOCK_USER_ID);
   const { mutate: updateProfile } = useUpdateUserProfile();
-  const { isDark, toggleTheme } = useTheme();
   const [activeSection, setActiveSection] = useState<NavId>("profile");
   const [profile, setProfile] = useState<UserProfile>(SEED_PROFILE);
 
@@ -193,7 +173,14 @@ export function UserProfilePage() {
   };
 
   return (
-    <div className="min-h-screen pb-24 lg:pb-8" data-ocid="profile.page">
+    <div
+      className="min-h-screen pb-24 lg:pb-8"
+      data-ocid="profile.page"
+      style={{
+        background:
+          "linear-gradient(160deg, #0f172a 0%, #1e1b4b 35%, #312e81 60%, #0f172a 100%)",
+      }}
+    >
       {/* Page header banner */}
       <div
         className="relative overflow-hidden"
@@ -222,37 +209,13 @@ export function UserProfilePage() {
           <motion.div
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="flex items-center justify-between"
           >
-            <div>
-              <h1 className="font-display font-bold text-3xl text-foreground tracking-tight">
-                My Profile
-              </h1>
-              <p className="text-muted-foreground mt-1 text-sm">
-                Manage your account, preferences, and activity
-              </p>
-            </div>
-            {/* Desktop theme toggle in header */}
-            <button
-              type="button"
-              onClick={toggleTheme}
-              data-ocid="profile.header_theme_toggle"
-              aria-label={
-                isDark ? "Switch to light mode" : "Switch to dark mode"
-              }
-              className="hidden lg:flex items-center gap-2 px-4 py-2 rounded-xl text-sm text-muted-foreground hover:text-foreground transition-smooth"
-              style={{
-                background: "oklch(0.2 0.02 260 / 0.4)",
-                border: "1px solid oklch(0.28 0.04 270 / 0.2)",
-              }}
-            >
-              {isDark ? (
-                <Sun className="w-4 h-4 text-amber-400" />
-              ) : (
-                <Moon className="w-4 h-4 text-primary" />
-              )}
-              {isDark ? "Light Mode" : "Dark Mode"}
-            </button>
+            <h1 className="font-display font-bold text-3xl text-foreground tracking-tight">
+              My Profile
+            </h1>
+            <p className="text-muted-foreground mt-1 text-sm">
+              Manage your account, preferences, and activity
+            </p>
           </motion.div>
         </div>
       </div>
@@ -275,12 +238,7 @@ export function UserProfilePage() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.1 }}
           >
-            <SidebarNav
-              active={activeSection}
-              onChange={setActiveSection}
-              isDark={isDark}
-              toggleTheme={toggleTheme}
-            />
+            <SidebarNav active={activeSection} onChange={setActiveSection} />
           </motion.div>
 
           {/* Content area */}
@@ -321,11 +279,7 @@ export function UserProfilePage() {
                   />
                 )}
                 {activeSection === "security" && (
-                  <SecuritySection
-                    profile={profile}
-                    isDark={isDark}
-                    toggleTheme={toggleTheme}
-                  />
+                  <SecuritySection profile={profile} />
                 )}
               </motion.div>
             </AnimatePresence>

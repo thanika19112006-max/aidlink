@@ -11,10 +11,8 @@ import {
   Lock,
   LogOut,
   Monitor,
-  Moon,
   Shield,
   Smartphone,
-  Sun,
 } from "lucide-react";
 import { motion } from "motion/react";
 import { useState } from "react";
@@ -24,8 +22,6 @@ import { timeAgo } from "./ProfileHeader";
 
 interface Props {
   profile: UserProfile;
-  isDark: boolean;
-  toggleTheme: () => void;
 }
 
 function PasswordField({
@@ -194,7 +190,7 @@ const SESSIONS = [
   },
 ];
 
-export function SecuritySection({ profile, isDark, toggleTheme }: Props) {
+export function SecuritySection({ profile }: Props) {
   return (
     <div className="space-y-6" data-ocid="profile.security_panel">
       <PasswordCard />
@@ -316,7 +312,7 @@ export function SecuritySection({ profile, isDark, toggleTheme }: Props) {
             style={{ background: "oklch(0.28 0.04 270)" }}
           />
 
-          {/* Two-factor + theme */}
+          {/* Two-factor auth */}
           <div className="space-y-3">
             <div
               className="flex items-center justify-between p-3 rounded-xl"
@@ -338,36 +334,6 @@ export function SecuritySection({ profile, isDark, toggleTheme }: Props) {
                 onCheckedChange={(v) =>
                   toast.success(v ? "2FA enabled" : "2FA disabled")
                 }
-              />
-            </div>
-
-            {/* Dark / light mode toggle */}
-            <div
-              className="flex items-center justify-between p-3 rounded-xl"
-              style={{
-                background: "oklch(0.18 0.02 260 / 0.4)",
-                border: "1px solid oklch(0.28 0.04 270 / 0.12)",
-              }}
-            >
-              <div className="flex items-center gap-3">
-                {isDark ? (
-                  <Moon className="w-4 h-4 text-primary" />
-                ) : (
-                  <Sun className="w-4 h-4 text-amber-400" />
-                )}
-                <div>
-                  <p className="font-medium text-sm text-foreground">
-                    {isDark ? "Dark Mode" : "Light Mode"}
-                  </p>
-                  <p className="text-xs text-muted-foreground mt-0.5">
-                    Toggle between light and dark themes
-                  </p>
-                </div>
-              </div>
-              <Switch
-                checked={isDark}
-                onCheckedChange={toggleTheme}
-                data-ocid="profile.theme_mode.switch"
               />
             </div>
           </div>
