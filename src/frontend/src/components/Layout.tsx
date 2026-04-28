@@ -183,6 +183,7 @@ export function Layout({ children }: LayoutProps) {
               <span className="text-muted-foreground text-sm">
                 — Smart Resource Allocation
               </span>
+              <div>
            <div>
   <p className="text-muted-foreground text-sm">
     © {new Date().getFullYear()} VolunteerConnect AI. All rights reserved.
