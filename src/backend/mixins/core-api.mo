@@ -1,8 +1,10 @@
 import Types "../types/core";
 import CoreLib "../lib/core";
 import List "mo:core/List";
+import Map "mo:core/Map";
 import Time "mo:core/Time";
 import Text "mo:core/Text";
+import Runtime "mo:core/Runtime";
 import OutCall "mo:caffeineai-http-outcalls/outcall";
 
 mixin (
@@ -15,6 +17,8 @@ mixin (
   nextRequestId : { var value : Nat },
   nextAssignmentId : { var value : Nat },
   geminiApiKey : { var value : Text },
+  ngoEmailIndex : Map.Map<Text, Types.NgoId>,
+  volunteerNameIndex : Map.Map<Text, Types.VolunteerId>,
 ) {
 
   // ── Query: requests ────────────────────────────────────────────────────────
@@ -72,15 +76,27 @@ mixin (
   // ── Update: registration ───────────────────────────────────────────────────
 
   public shared func registerNGO(input : Types.CreateNGOInput) : async Types.NGO {
+    // Duplicate email check
+    if (ngoEmailIndex.containsKey(input.contactEmail)) {
+      Runtime.trap("An NGO with this email address is already registered: " # input.contactEmail);
+    };
     let id = nextNgoId.value;
     nextNgoId.value += 1;
-    CoreLib.createNGO(ngos, id, input, Time.now());
+    let ngo = CoreLib.createNGO(ngos, id, input, Time.now());
+    ngoEmailIndex.add(input.contactEmail, id);
+    ngo;
   };
 
   public shared func registerVolunteer(input : Types.CreateVolunteerInput) : async Types.Volunteer {
+    // Duplicate name check (volunteers have no email — guard by name)
+    if (volunteerNameIndex.containsKey(input.name)) {
+      Runtime.trap("A volunteer with this name is already registered: " # input.name);
+    };
     let id = nextVolunteerId.value;
     nextVolunteerId.value += 1;
-    CoreLib.createVolunteer(volunteers, id, input, Time.now());
+    let volunteer = CoreLib.createVolunteer(volunteers, id, input, Time.now());
+    volunteerNameIndex.add(input.name, id);
+    volunteer;
   };
 
   // ── AI chatbot ─────────────────────────────────────────────────────────────

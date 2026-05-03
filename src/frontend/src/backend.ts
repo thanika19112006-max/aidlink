@@ -223,6 +223,7 @@ export interface backendInterface {
     getMapApiKey(): Promise<string>;
     getNearbyRequests(lat: number, lng: number, radiusKm: number): Promise<Array<ResourceRequest>>;
     getRequestsByNgo(ngoId: NgoId): Promise<Array<ResourceRequest>>;
+    initSeedData(): Promise<void>;
     registerNGO(input: CreateNGOInput): Promise<NGO>;
     registerVolunteer(input: CreateVolunteerInput): Promise<Volunteer>;
     sendChatMessage(messages: Array<ChatMessage>): Promise<string>;
@@ -389,6 +390,20 @@ export class Backend implements backendInterface {
         } else {
             const result = await this.actor.getRequestsByNgo(arg0);
             return from_candid_vec_n22(this._uploadFile, this._downloadFile, result);
+        }
+    }
+    async initSeedData(): Promise<void> {
+        if (this.processError) {
+            try {
+                const result = await this.actor.initSeedData();
+                return result;
+            } catch (e) {
+                this.processError(e);
+                throw new Error("unreachable");
+            }
+        } else {
+            const result = await this.actor.initSeedData();
+            return result;
         }
     }
     async registerNGO(arg0: CreateNGOInput): Promise<NGO> {

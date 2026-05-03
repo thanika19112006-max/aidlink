@@ -329,7 +329,7 @@ export function RequestFormPage() {
   const [submitted, setSubmitted] = useState(false);
 
   const { mutateAsync: createRequest, isPending } = useCreateRequest();
-  const { data: ngos = [] } = useNGOs();
+  const { data: ngos = [], isLoading: ngosLoading } = useNGOs();
   const { display: displayStep, animClass } = useStepTransition(step);
 
   const set = <K extends keyof FormState>(key: K, val: FormState[K]) =>
@@ -574,6 +574,7 @@ export function RequestFormPage() {
                 form={form}
                 errors={errors}
                 ngos={ngos}
+                ngosLoading={ngosLoading}
                 set={set}
                 clearError={clearError}
               />
@@ -721,12 +722,14 @@ function Step1({
   form,
   errors,
   ngos,
+  ngosLoading,
   set,
   clearError,
 }: {
   form: FormState;
   errors: FieldErrors;
   ngos: NGOItem[];
+  ngosLoading: boolean;
   set: <K extends keyof FormState>(key: K, val: FormState[K]) => void;
   clearError: (key: keyof FormState) => void;
 }) {
@@ -821,15 +824,24 @@ function Step1({
           >
             <SelectValue
               placeholder={
-                ngos.length === 0
-                  ? "No NGOs registered yet"
-                  : "Select your organization..."
+                ngosLoading
+                  ? "Loading NGOs..."
+                  : ngos.length === 0
+                    ? "No NGOs registered yet"
+                    : "Select your organization..."
               }
             />
           </SelectTrigger>
           <SelectContent>
-            {ngos.length === 0 ? (
-              <SelectItem value="none" disabled>
+            {ngosLoading ? (
+              <SelectItem value="__loading" disabled>
+                <span className="flex items-center gap-2">
+                  <span className="w-3 h-3 rounded-full border border-current border-t-transparent animate-spin inline-block" />
+                  Loading NGOs…
+                </span>
+              </SelectItem>
+            ) : ngos.length === 0 ? (
+              <SelectItem value="__none" disabled>
                 No NGOs available. Register one first.
               </SelectItem>
             ) : (

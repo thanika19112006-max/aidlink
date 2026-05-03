@@ -134,6 +134,7 @@ export interface _SERVICE {
     Array<ResourceRequest>
   >,
   'getRequestsByNgo' : ActorMethod<[NgoId], Array<ResourceRequest>>,
+  'initSeedData' : ActorMethod<[], undefined>,
   'registerNGO' : ActorMethod<[CreateNGOInput], NGO>,
   'registerVolunteer' : ActorMethod<[CreateVolunteerInput], Volunteer>,
   'sendChatMessage' : ActorMethod<[Array<ChatMessage>], string>,

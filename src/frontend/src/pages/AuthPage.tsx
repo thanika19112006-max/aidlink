@@ -594,8 +594,27 @@ function SignUpForm() {
         setSuccess(true);
         setTimeout(() => navigate({ to: "/volunteer" }), 1300);
       }
-    } catch {
-      toast.error("Registration failed. Please try again.");
+    } catch (err: unknown) {
+      const raw =
+        err instanceof Error
+          ? err.message
+          : typeof err === "string"
+            ? err
+            : "Registration failed. Please try again.";
+      // Extract meaningful message from canister trap text if present
+      const match = raw.match(/(?:Canister called|Error:\s*)(.+?)(?:\s*\(|$)/i);
+      const msg = match?.[1]?.trim() ?? raw;
+      const isKnown =
+        msg.toLowerCase().includes("already registered") ||
+        msg.toLowerCase().includes("duplicate") ||
+        msg.toLowerCase().includes("already exists");
+      toast.error(
+        isKnown
+          ? `That ${role === "ngo" ? "organization name or email" : "name"} is already registered. Try a different one.`
+          : msg.length < 200
+            ? msg
+            : "Registration failed. Please try again.",
+      );
     }
   };
 

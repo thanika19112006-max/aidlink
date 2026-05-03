@@ -11,6 +11,11 @@ type Assignment__286129986 =
     status : AssignmentStatus__175860934;
     volunteerId : VolunteerId__1030823424
   };
+type Data__791452850<K, V> =
+  {var count : Nat__490723111; kvs : [var ?(K, V)]};
+type Internal__8484328<K, V> =
+  {children : [var ?Node__46230540<K, V>]; data : Data__791452850<K, V>};
+type Leaf__809889148<K, V> = {data : Data__791452850<K, V>};
 type NGO__123334096 =
   {
     contactEmail : Text;
@@ -26,6 +31,8 @@ type Nat__490723111 = Nat__920180692;
 type Nat__920180692 = Nat;
 type NgoId__228850423 = NgoId__760671034;
 type NgoId__760671034 = Nat;
+type Node__46230540<K, V> =
+  {#internal : Internal__8484328<K, V>; #leaf : Leaf__809889148<K, V>};
 type RequestId__113075894 = RequestId__173743850;
 type RequestId__173743850 = Nat;
 type RequestStatus__331743025 = {#completed; #ongoing; #pending};
@@ -77,6 +84,11 @@ actor {
   stable nextNgoId : {var value : Nat};
   stable nextRequestId : {var value : Nat};
   stable nextVolunteerId : {var value : Nat};
+  stable ngoEmailIndex :
+    {
+      var root : Node__46230540<Text, NgoId__228850423>;
+      var size : Nat__490723111
+    };
   stable ngos :
     {
       var blockIndex : Nat__490723111;
@@ -88,6 +100,11 @@ actor {
       var blockIndex : Nat__490723111;
       var blocks : [var [var ?ResourceRequest__332570298]];
       var elementIndex : Nat__490723111
+    };
+  stable volunteerNameIndex :
+    {
+      var root : Node__46230540<Text, VolunteerId__1030823424>;
+      var size : Nat__490723111
     };
   stable volunteers :
     {

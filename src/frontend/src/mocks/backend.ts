@@ -275,6 +275,8 @@ export const mockBackend: backendInterface = {
 
   detectLanguage: async (_text) => "en",
 
+  initSeedData: async () => {},
+
   transformTranslation: async (input) => ({
     status: input.response.status,
     body: input.response.body,

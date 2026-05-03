@@ -104,16 +104,48 @@ const FALLBACK_NGOS = [
   },
 ] as const;
 
+// Track whether initSeedData has been called in this browser session
+let seedDataInitialized = false;
+
+export function useInitSeedData() {
+  const { actor } = useBackendActor();
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async () => {
+      if (!actor) throw new Error("Actor not ready");
+      await actor.initSeedData();
+      seedDataInitialized = true;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["ngos"] });
+    },
+  });
+}
+
 export function useNGOs() {
   const { actor, isFetching } = useBackendActor();
+  const queryClient = useQueryClient();
   return useQuery({
     queryKey: ["ngos"],
     queryFn: async () => {
       if (!actor) return [...FALLBACK_NGOS];
       try {
         const result = await actor.getAllNGOs();
-        // If backend returns empty list, use fallback seed data
-        if (!result || result.length === 0) return [...FALLBACK_NGOS];
+        if (!result || result.length === 0) {
+          // Seed data only once per session; show fallback while seeding
+          if (!seedDataInitialized) {
+            seedDataInitialized = true;
+            actor
+              .initSeedData()
+              .then(() => {
+                queryClient.invalidateQueries({ queryKey: ["ngos"] });
+              })
+              .catch(() => {
+                // Seed may already exist — safe to ignore
+              });
+          }
+          return [...FALLBACK_NGOS];
+        }
         return result;
       } catch {
         return [...FALLBACK_NGOS];
@@ -121,6 +153,7 @@ export function useNGOs() {
     },
     enabled: !!actor && !isFetching,
     staleTime: STALE_TIME,
+    refetchInterval: 5000,
     // Show fallback data immediately while actor loads
     placeholderData: [...FALLBACK_NGOS],
   });

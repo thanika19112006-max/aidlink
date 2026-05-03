@@ -151,6 +151,7 @@ service : {
   getNearbyRequests: (lat: float64, lng: float64, radiusKm: float64) ->
    (vec ResourceRequest) query;
   getRequestsByNgo: (ngoId: NgoId) -> (vec ResourceRequest) query;
+  initSeedData: () -> ();
   registerNGO: (input: CreateNGOInput) -> (NGO);
   registerVolunteer: (input: CreateVolunteerInput) -> (Volunteer);
   sendChatMessage: (messages: vec ChatMessage) -> (text);

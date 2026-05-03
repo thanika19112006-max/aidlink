@@ -141,6 +141,7 @@ export interface backendInterface {
     getMapApiKey(): Promise<string>;
     getNearbyRequests(lat: number, lng: number, radiusKm: number): Promise<Array<ResourceRequest>>;
     getRequestsByNgo(ngoId: NgoId): Promise<Array<ResourceRequest>>;
+    initSeedData(): Promise<void>;
     registerNGO(input: CreateNGOInput): Promise<NGO>;
     registerVolunteer(input: CreateVolunteerInput): Promise<Volunteer>;
     sendChatMessage(messages: Array<ChatMessage>): Promise<string>;
